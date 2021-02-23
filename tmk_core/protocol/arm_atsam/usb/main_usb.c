@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "udd.h"
 
 #ifdef RAW_ENABLE
-#    include "raw_hid.h"
+#include "raw_hid.h"
 #endif
 
 uint8_t keyboard_protocol = 1;
