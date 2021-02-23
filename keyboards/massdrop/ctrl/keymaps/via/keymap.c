@@ -1,24 +1,12 @@
 #include QMK_KEYBOARD_H
 
 enum ctrl_keycodes {
-    L_BRI = SAFE_RANGE, //LED Brightness Increase                                   //Working
-    L_BRD,              //LED Brightness Decrease                                   //Working
-    L_PTN,              //LED Pattern Select Next                                   //Working
-    L_PTP,              //LED Pattern Select Previous                               //Working
-    L_PSI,              //LED Pattern Speed Increase                                //Working
-    L_PSD,              //LED Pattern Speed Decrease                                //Working
-    L_T_MD,             //LED Toggle Mode                                           //Working
-    L_T_ONF,            //LED Toggle On / Off                                       //Broken
-    L_ON,               //LED On                                                    //Broken
-    L_OFF,              //LED Off                                                   //Broken
-    L_T_BR,             //LED Toggle Breath Effect                                  //Working
-    L_T_PTD,            //LED Toggle Scrolling Pattern Direction                    //Working
-    U_T_AGCR,           //USB Toggle Automatic GCR control                          //Working
-    DBG_TOG,            //DEBUG Toggle On / Off                                     //
-    DBG_MTRX,           //DEBUG Toggle Matrix Prints                                //
-    DBG_KBD,            //DEBUG Toggle Keyboard Prints                              //
-    DBG_MOU,            //DEBUG Toggle Mouse Prints                                 //
-    MD_BOOT             //Restart into bootloader after hold timeout                //Working
+    U_T_AGCR = SAFE_RANGE,  //USB Toggle Automatic GCR control                          //Working
+    DBG_TOG,                //DEBUG Toggle On / Off                                     //
+    DBG_MTRX,               //DEBUG Toggle Matrix Prints                                //
+    DBG_KBD,                //DEBUG Toggle Keyboard Prints                              //
+    DBG_MOU,                //DEBUG Toggle Mouse Prints                                 //
+    MD_BOOT,                //Restart into bootloader after hold timeout                //Working
 };
 
 keymap_config_t keymap_config;
@@ -35,9 +23,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [1] = LAYOUT(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,            KC_MUTE, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   KC_MPLY, KC_MSTP, KC_VOLU, \
-        L_T_BR,  L_PSD,   L_BRI,   L_PSI,   _______, _______, _______, _______, U_T_AGCR,_______, _______, _______, _______, _______,   KC_MPRV, KC_MNXT, KC_VOLD, \
-        L_T_PTD, L_PTP,   L_BRD,   L_PTN,   _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-        _______, L_T_MD,  L_T_ONF, _______, _______, MD_BOOT, NK_TOGG, _______, _______, _______, _______, _______,                              _______, \
+        _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, _______, U_T_AGCR,_______, _______, _______, _______, _______,   KC_MPRV, KC_MNXT, KC_VOLD, \
+        _______,RGB_RMOD, RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, DBG_TOG, _______, DBG_KBD, DBG_MOU, _______, _______, _______, \
+        _______, RGB_TOG, _______, _______, _______, MD_BOOT, NK_TOGG, _______, _______, _______, _______, _______,                              _______, \
         _______, _______, _______,                   _______,                            _______, _______, _______, _______,            _______, _______, _______ \
     ),
     [2] = LAYOUT(
@@ -58,13 +46,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-// void keyboard_post_init_user(void) {
-//   // Customise these values to desired behaviour
-//   debug_enable=true;
-//   debug_matrix=true;
-//   //debug_keyboard=true;
-//   //debug_mouse=true;
-// }
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  // debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
@@ -82,86 +70,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
 
 #ifdef CONSOLE_ENABLE
-   uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    uprintf("KL: kc: 0x%04X, row: %u, col: %u, pressed: %d, time: %u, interrupt: %d, count: %u\n", keycode, record->event.key.row, record->event.key.col, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 #endif
 
     switch (keycode) {
-        case L_BRI:
-            if (record->event.pressed) {
-                if (LED_GCR_STEP > LED_GCR_MAX - gcr_desired) gcr_desired = LED_GCR_MAX;
-                else gcr_desired += LED_GCR_STEP;
-                if (led_animation_breathing) gcr_breathe = gcr_desired;
-            }
-            return false;
-        case L_BRD:
-            if (record->event.pressed) {
-                if (LED_GCR_STEP > gcr_desired) gcr_desired = 0;
-                else gcr_desired -= LED_GCR_STEP;
-                if (led_animation_breathing) gcr_breathe = gcr_desired;
-            }
-            return false;
-        case L_PTN:
-            if (record->event.pressed) {
-                if (led_animation_id == led_setups_count - 1) led_animation_id = 0;
-                else led_animation_id++;
-            }
-            return false;
-        case L_PTP:
-            if (record->event.pressed) {
-                if (led_animation_id == 0) led_animation_id = led_setups_count - 1;
-                else led_animation_id--;
-            }
-            return false;
-        case L_PSI:
-            if (record->event.pressed) {
-                led_animation_speed += ANIMATION_SPEED_STEP;
-            }
-            return false;
-        case L_PSD:
-            if (record->event.pressed) {
-                led_animation_speed -= ANIMATION_SPEED_STEP;
-                if (led_animation_speed < 0) led_animation_speed = 0;
-            }
-            return false;
-        case L_T_MD:
-            if (record->event.pressed) {
-                led_lighting_mode++;
-                if (led_lighting_mode > LED_MODE_MAX_INDEX) led_lighting_mode = LED_MODE_NORMAL;
-            }
-            return false;
-        case L_T_ONF:
-            if (record->event.pressed) {
-                led_enabled = !led_enabled;
-                I2C3733_Control_Set(led_enabled);
-            }
-            return false;
-        case L_ON:
-            if (record->event.pressed) {
-                led_enabled = 1;
-                I2C3733_Control_Set(led_enabled);
-            }
-            return false;
-        case L_OFF:
-            if (record->event.pressed) {
-                led_enabled = 0;
-                I2C3733_Control_Set(led_enabled);
-            }
-            return false;
-        case L_T_BR:
-            if (record->event.pressed) {
-                led_animation_breathing = !led_animation_breathing;
-                if (led_animation_breathing) {
-                    gcr_breathe = gcr_desired;
-                    led_animation_breathe_cur = BREATHE_MIN_STEP;
-                    breathe_dir = 1;
-                }
-            }
-            return false;
-        case L_T_PTD:
-            if (record->event.pressed) {
-                led_animation_direction = !led_animation_direction;
-            }
-            return false;
         case U_T_AGCR:
             if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
                 TOGGLE_FLAG_AND_PRINT(usb_gcr_auto, "USB GCR auto mode");
@@ -200,44 +112,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true; //Process all other keycodes normally
     }
 }
-
-
-led_instruction_t led_instructions[] = {
-    //LEDs are normally inactive, no processing is performed on them
-    //Flags are used in matching criteria for an LED to be active and indicate how to color it
-    //Flags can be found in tmk_core/protocol/arm_atsam/led_matrix.h (prefixed with LED_FLAG_)
-    //LED IDs can be found in config_led.h in the keyboard's directory
-    //Examples are below
-
-    //All LEDs use the user's selected pattern (this is the factory default)
-     { .flags = LED_FLAG_USE_ROTATE_PATTERN },
-
-    //Specific LEDs use the user's selected pattern while all others are off
-    // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_ROTATE_PATTERN, .id0 = 0xFFFFFFFF, .id1 = 0xAAAAAAAA, .id2 = 0x55555555, .id3 = 0x11111111 },
-
-    //Specific LEDs use specified RGB values while all others are off
-    // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_RGB, .id0 = 0xFF, .id1 = 0x00FF, .id2 = 0x0000FF00, .id3 = 0xFF000000, .r = 75, .g = 150, .b = 225 },
-
-    //All LEDs use the user's selected pattern
-    //On layer 1, all key LEDs (except the top row which keeps active pattern) are red while all edge LEDs are green
-    //When layer 1 is active, key LEDs use red    (id0  32 -  17: 1111 1111 1111 1111 0000 0000 0000 0000 = 0xFFFF0000) (except top row 16 - 1)
-    //When layer 1 is active, key LEDs use red    (id1  64 -  33: 1111 1111 1111 1111 1111 1111 1111 1111 = 0xFFFFFFFF)
-    //When layer 1 is active, key LEDs use red    (id2  87 -  65: 0000 0000 0111 1111 1111 1111 1111 1111 = 0x007FFFFF)
-    //When layer 1 is active, edge LEDs use green (id2  95 -  88: 1111 1111 1000 0000 0000 0000 0000 0000 = 0xFF800000)
-    //When layer 1 is active, edge LEDs use green (id3 119 -  96: 0000 0000 1111 1111 1111 1111 1111 1111 = 0x00FFFFFF)
-    // { .flags = LED_FLAG_USE_ROTATE_PATTERN },
-    // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_MATCH_LAYER | LED_FLAG_USE_RGB, .id0 = 0xFFFF0000, .id1 = 0xFFFFFFFF, .id2 = 0x007FFFFF, .r = 255, .layer = 1 },
-    // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_MATCH_LAYER | LED_FLAG_USE_RGB, .id2 = 0xFF800000, .id3 = 0x00FFFFFF, .g = 127, .layer = 1 },
-
-    //All key LEDs use red while edge LEDs use the active pattern
-    //All key LEDs use red     (id0  32 -   1: 1111 1111 1111 1111 1111 1111 1111 1111 = 0xFFFFFFFF)
-    //All key LEDs use red     (id1  64 -  33: 1111 1111 1111 1111 1111 1111 1111 1111 = 0xFFFFFFFF)
-    //All key LEDs use red     (id2  87 -  65: 0000 0000 0111 1111 1111 1111 1111 1111 = 0x007FFFFF)
-    //Edge uses active pattern (id2  95 -  88: 1111 1111 1000 0000 0000 0000 0000 0000 = 0xFF800000)
-    //Edge uses active pattern (id3 119 -  96: 0000 0000 1111 1111 1111 1111 1111 1111 = 0x00FFFFFF)
-    // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_RGB, .id0 = 0xFFFFFFFF, .id1 = 0xFFFFFFFF, .id2 = 0x007FFFFF, .r = 255 },
-    // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_ROTATE_PATTERN , .id2 = 0xFF800000, .id3 = 0x00FFFFFF },
-
-    //end must be set to 1 to indicate end of instruction set
-     { .end = 1 }
-};

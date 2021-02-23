@@ -340,8 +340,12 @@ enum quantum_keycodes {
     MI_TRNSU,  // transpose up
 
     MIDI_VELOCITY_MIN,
+#ifndef VIA_ENABLE
     MI_VEL_0 = MIDI_VELOCITY_MIN,
     MI_VEL_1,
+#else
+    MI_VEL_1 = MIDI_VELOCITY_MIN,  // Temporary fix for the VIA-breaking MIDI change
+#endif
     MI_VEL_2,
     MI_VEL_3,
     MI_VEL_4,

@@ -478,6 +478,9 @@ void via_qmk_rgblight_set_value(uint8_t *data) {
         }
         case id_qmk_rgblight_effect_speed: {
             rgblight_set_speed_noeeprom(value_data[0]);
+#ifdef RGB_MATRIX_ENABLE
+            rgblight_set_speed_noeeprom(value_data[0] * 64 + 63);
+#endif
             break;
         }
         case id_qmk_rgblight_color: {
