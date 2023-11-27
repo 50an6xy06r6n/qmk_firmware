@@ -1,7 +1,5 @@
 #pragma once
 
-#include "config_common.h"
-
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x4543 // "EC"
 #define PRODUCT_ID      0x0000

@@ -15,7 +15,7 @@ BOOTLOADER = caterina
 #   comment out to disable the options.
 #
 SPLIT_KEYBOARD = yes
-BOOTMAGIC_ENABLE = full	# Virtual DIP switch configuration
+BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration
 MOUSEKEY_ENABLE = yes	# Mouse keys
 EXTRAKEY_ENABLE = yes	# Audio control and System control
 CONSOLE_ENABLE = no	# Console for debug

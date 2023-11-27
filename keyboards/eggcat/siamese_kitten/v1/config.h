@@ -1,7 +1,5 @@
 #pragma once
 
-#include "config_common.h"
-
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x4543 // "EC"
 #define PRODUCT_ID      0x0003
@@ -27,10 +25,6 @@
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION ROW2COL
-
-/* number of backlight levels */
-
-#define BACKLIGHT_LEVELS 0
 
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCE 5

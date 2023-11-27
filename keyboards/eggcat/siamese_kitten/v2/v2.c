@@ -4,12 +4,12 @@ void keyboard_pre_init_kb(void) {
     setPinOutput(B0);
 }
 
-void led_set_kb(uint8_t usb_led) {
-    if (IS_LED_ON(usb_led, USB_LED_CAPS_LOCK)) {
+void led_set_kb(led_t led_state) {
+    if (led_state.caps_lock) {
         writePinLow(B0);
     } else {
         writePinHigh(B0);
     }
 
-    led_set_user(usb_led);
+    led_set_user(led_state.caps_lock);
 }

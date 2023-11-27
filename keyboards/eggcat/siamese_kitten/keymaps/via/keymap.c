@@ -56,13 +56,6 @@ void keyboard_post_init_user(void) {
   debug_matrix=true;
   debug_keyboard=true;
   debug_mouse=true;
-  print("testing testing");
-}
-
-void pointing_device_init_kb(void) {
-    print("Initializing trackpad");
-    report_mouse_t initialReport = pointing_device_get_report();
-    uprintf("%u", initialReport.x);
 }
 
 // Runs just one time when the keyboard initializes.
@@ -75,7 +68,6 @@ void matrix_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // #ifdef CONSOLE_ENABLE
-    print("testing");
     uprintf("KL: kc: 0x%04X, row: %u, col: %u, pressed: %d, time: %u, interrupt: %d, count: %u\n", keycode, record->event.key.row, record->event.key.col, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 // #endif
     return true;
