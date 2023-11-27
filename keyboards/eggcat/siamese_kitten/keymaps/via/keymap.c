@@ -17,15 +17,14 @@
 #include QMK_KEYBOARD_H
 #define SPC_LT1 LT(1,KC_SPC)
 
-
-keymap_config_t keymap_config;
+extern keymap_config_t keymap_config;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
-        _______, KC_ESC,                                                                                                 KC_DEL,  _______,
+        KC_ESC,  KC_ESC,                                                                                                 KC_DEL,  KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    _______,      _______, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
     	KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    _______,      _______, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-    	KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                           KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______, \
+    	KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                           KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RCTL, \
     	                  _______, _______, KC_LGUI, SPC_LT1, KC_LALT,      KC_ENT,  SPC_LT1, MO(2),   _______, _______ \
     ),
     [1] = LAYOUT(
@@ -38,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [2] = LAYOUT(
         _______, _______,                                                                                                _______, _______,
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, KC_BSPC,   KC_UP,  KC_DEL, XXXXXXX, _______, \
-    	_______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX, \
+    	KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX, \
     	_______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     	                  _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______ \
     ),
@@ -55,8 +54,15 @@ void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
   debug_enable=true;
   debug_matrix=true;
-  //debug_keyboard=true;
-  //debug_mouse=true;
+  debug_keyboard=true;
+  debug_mouse=true;
+  print("testing testing");
+}
+
+void pointing_device_init_kb(void) {
+    print("Initializing trackpad");
+    report_mouse_t initialReport = pointing_device_get_report();
+    uprintf("%u", initialReport.x);
 }
 
 // Runs just one time when the keyboard initializes.
@@ -69,6 +75,7 @@ void matrix_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // #ifdef CONSOLE_ENABLE
+    print("testing");
     uprintf("KL: kc: 0x%04X, row: %u, col: %u, pressed: %d, time: %u, interrupt: %d, count: %u\n", keycode, record->event.key.row, record->event.key.col, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 // #endif
     return true;

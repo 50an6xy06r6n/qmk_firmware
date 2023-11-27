@@ -1,4 +1,4 @@
-#include "siamese_kitten.h"
+#include "v1.h"
 
 void keyboard_pre_init_kb(void) {
     setPinOutput(B0);
