@@ -8,7 +8,6 @@
 #define PRODUCT         "Siamese Kitten"
 
 /* split config */
-// #define MASTER_LEFT
 #define EE_HANDS
 #define SOFT_SERIAL_PIN D2
 
@@ -17,17 +16,18 @@
 #define POINTING_DEVICE_RIGHT
 #define POINTING_DEVICE_DEBUG
 // #define POINTING_DEVICE_ROTATION_90
+// #define CIRQUE_PINNACLE_DIAMETER_MM 35
+// #define CIRQUE_PINNACLE_POSITION_MODE CIRQUE_PINNACLE_RELATIVE_MODE
 
 /* key matrix size */
 #define MATRIX_ROWS 8
 #define MATRIX_COLS 7
 
 /* key matrix pins */
-#define MATRIX_ROW_PINS { E6, D7, D4, C6 }
+#define MATRIX_ROW_PINS { D1, D0, D4, C6 }
 #define MATRIX_COL_PINS { F5, F6, F7, B1, B3, B2, B6 }
-// #define MATRIX_ROW_PINS_RIGHT { F5, F6, F7, B1 }
-// #define MATRIX_COL_PINS_RIGHT { D0, D4, C6, D7, E6, B4, B5 }
-#define UNUSED_PINS
+#define MATRIX_ROW_PINS_RIGHT { E6, D7, D4, C6 }
+#define MATRIX_COL_PINS_RIGHT { F5, F6, F7, B1, B3, B2, B6 }
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION ROW2COL
