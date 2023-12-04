@@ -9,7 +9,11 @@
 
 /* split config */
 #define EE_HANDS
-// #define SOFT_SERIAL_PIN D2
+#define SOFT_SERIAL_PIN D2
+#define BOOTMAGIC_LITE_ROW 0
+#define BOOTMAGIC_LITE_COLUMN 0
+#define BOOTMAGIC_LITE_ROW_RIGHT 4
+#define BOOTMAGIC_LITE_COLUMN_RIGHT 0
 
 /* Cirque trackpad config */
 #define SPLIT_POINTING_ENABLE
