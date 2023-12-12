@@ -351,7 +351,7 @@ void register_mouse(uint8_t mouse_keycode, bool pressed) {
 
 #ifdef PS2_MOUSE_ENABLE
     // make sure that ps2 mouse has button report synced
-    if (KC_MS_BTN1 <= mouse_keycode && mouse_keycode <= KC_MS_BTN3) {
+    if (KC_MS_BTN1 <= mouse_keycode && mouse_keycode <= KC_MS_BTN8) {
         uint8_t tmp_button_msk = MOUSE_BTN_MASK(mouse_keycode - KC_MS_BTN1);
         tp_buttons             = pressed ? tp_buttons | tmp_button_msk : tp_buttons & ~tmp_button_msk;
     }

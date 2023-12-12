@@ -1,7 +1,14 @@
 #pragma once
 
 #include "quantum.h"
+
+#ifdef POINTING_DEVICE_DRIVER_cirque_pinnacle_i2c
 #include "pointing_device.h"
+#endif
+
+#ifdef PS2_DRIVER_INTERRUPT
+#include "ps2_mouse.h"
+#endif
 
 #define LAYOUT( \
 	L00, L01,                                                        R41, R40, \

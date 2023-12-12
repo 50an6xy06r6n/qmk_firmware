@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static report_mouse_t mouse_report = {};
 
-static inline void ps2_mouse_print_report(report_mouse_t *mouse_report);
+inline void ps2_mouse_print_report(report_mouse_t *mouse_report);
 static inline void ps2_mouse_convert_report_to_hid(report_mouse_t *mouse_report);
 static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report);
 static inline void ps2_mouse_enable_scrolling(void);
@@ -112,6 +112,7 @@ void ps2_mouse_task(void) {
         buttons_prev = mouse_report.buttons;
         ps2_mouse_convert_report_to_hid(&mouse_report);
 #if PS2_MOUSE_SCROLL_BTN_MASK
+        mouse_report.buttons |= tp_buttons;
         ps2_mouse_scroll_button_task(&mouse_report);
 #endif
         if (mouse_report.x || mouse_report.y || mouse_report.v) {
@@ -230,7 +231,7 @@ static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report) {
     mouse_report->buttons = 0;
 }
 
-static inline void ps2_mouse_print_report(report_mouse_t *mouse_report) {
+inline void ps2_mouse_print_report(report_mouse_t *mouse_report) {
     if (!debug_mouse) return;
     print("ps2_mouse: [");
     print_hex8(mouse_report->buttons);
