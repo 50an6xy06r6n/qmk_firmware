@@ -8,22 +8,13 @@
 #define PRODUCT         "Siamese Kitten"
 
 /* split config */
+// #define MASTER_LEFT
 #define EE_HANDS
 #define SOFT_SERIAL_PIN D2
 #define BOOTMAGIC_LITE_ROW 0
 #define BOOTMAGIC_LITE_COLUMN 0
 #define BOOTMAGIC_LITE_ROW_RIGHT 4
 #define BOOTMAGIC_LITE_COLUMN_RIGHT 0
-
-/* Cirque trackpad config */
-#ifdef POINTING_DEVICE_DRIVER_cirque_pinnacle_i2c
-#define SPLIT_POINTING_ENABLE
-#define POINTING_DEVICE_RIGHT
-#define POINTING_DEVICE_DEBUG
-// #define POINTING_DEVICE_ROTATION_90
-#define CIRQUE_PINNACLE_DIAMETER_MM 35
-#define CIRQUE_PINNACLE_POSITION_MODE CIRQUE_PINNACLE_RELATIVE_MODE
-#endif
 
 /* Trackpoint config */
 #ifdef PS2_DRIVER_INTERRUPT
@@ -41,7 +32,7 @@
     EIMSK &= ~(1<<INT0);        \
 } while (0)
 #define PS2_INT_VECT   INT0_vect
-#define PS2_MOUSE_ROTATE 180
+#define PS2_MOUSE_ROTATE 90
 
 #define PS2_MOUSE_X_MULTIPLIER 1
 #define PS2_MOUSE_Y_MULTIPLIER 1
@@ -57,11 +48,10 @@
 #define MATRIX_COLS 7
 
 /* key matrix pins */
-// #define MATRIX_ROW_PINS { E6, D7, D4, C6 }
 #define MATRIX_ROW_PINS { D1, D0, D4, C6 }
 #define MATRIX_COL_PINS { F5, F6, F7, B1, B3, B2, B6 }
-#define MATRIX_ROW_PINS_RIGHT { E6, D7, D4, C6 }
-#define MATRIX_COL_PINS_RIGHT { F5, F6, F7, B1, B3, B2, B6 }
+#define MATRIX_ROW_PINS_RIGHT { F5, F6, F7, B1 }
+#define MATRIX_COL_PINS_RIGHT { B6, D4, C6, D7, E6, B4, B5 }
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION ROW2COL

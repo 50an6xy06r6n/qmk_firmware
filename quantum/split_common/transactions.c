@@ -104,7 +104,7 @@ static bool transaction_handler_master(matrix_row_t master_matrix[], matrix_row_
         this_okay      = handler(master_matrix, slave_matrix);
         if (this_okay) return true;
     }
-    dprintf("Failed to execute %s\n", prefix);
+    // dprintf("Failed to execute %s\n", prefix);
     return false;
 }
 

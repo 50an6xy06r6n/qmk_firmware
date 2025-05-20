@@ -247,7 +247,7 @@ bool transport_master_if_connected(matrix_row_t master_matrix[], matrix_row_t sl
         bool connected = is_transport_connected();
         if (!connected) {
             connection_check_timer = timer_read();
-            dprintln("Target disconnected, throttling connection attempts");
+            // dprintln("Target disconnected, throttling connection attempts");
         }
         return connected;
     } else if (is_disconnected) {
